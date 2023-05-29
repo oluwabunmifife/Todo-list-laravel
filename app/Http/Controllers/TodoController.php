@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\TodoStatus;
 use App\Models\Todo;
 use App\Http\Requests\StoreTodoRequest;
 use App\Http\Requests\UpdateTodoRequest;
@@ -52,7 +53,7 @@ class TodoController extends Controller
      */
     public function edit(Todo $todo)
     {
-        //
+        return view('todo.edit', compact('todo'));
     }
 
     /**
@@ -60,7 +61,19 @@ class TodoController extends Controller
      */
     public function update(UpdateTodoRequest $request, Todo $todo)
     {
-        //
+        $selected = $request->input('StatusGroup');
+
+        if ($selected === 'completed') {
+            $stats = Todo::where('id', $todo->id)->update(['status' => TodoStatus::COMPLETED->value]);
+            $todo->update(['title' => $request->title, 'description' => $request->description, 'status' => $stats]);
+            // dd($todo->status);
+            return redirect(route('todo.index'));
+        } else {
+            $stats = Todo::where('id', $todo->id)->update(['status' => TodoStatus::OPEN->value]);
+            $todo->update(['title' => $request->title, 'description' => $request->description, 'status' => $stats]);
+            // dd($todo->status);
+            return redirect(route('todo.index'));
+        }
     }
 
     /**
@@ -68,6 +81,7 @@ class TodoController extends Controller
      */
     public function destroy(Todo $todo)
     {
-        //
+        $todo->delete();
+        return redirect(route('todo.index'));
     }
 }

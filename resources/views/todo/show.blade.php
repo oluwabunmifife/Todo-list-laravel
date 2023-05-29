@@ -6,6 +6,19 @@
                 <p>{{ $todo->description }}</p>
                 <p>{{ $todo->created_at->diffforHumans() }}</p>
             </div>
+            <div class="flex">
+                {{-- Edit button --}}
+                <a href="{{ route('todo.edit', $todo->id) }}">
+                    <x-primary-button>Edit</x-primary-button>
+                </a>
+
+                {{-- Delete button --}}
+                <form class="pl-3" action="{{ route('todo.destroy', $todo->id) }}" method="post">
+                    @csrf
+                    @method('delete')
+                    <x-danger-button>Delete</x-danger-button> 
+                </form>
+            </div>
         </div>
     </div>
 </x-app-layout> 
