@@ -13,7 +13,8 @@ class TodoController extends Controller
      */
     public function index()
     {
-        //
+        $todos = Todo::all();
+        return view('todo.index')->with('todos', $todos);
     }
 
     /**
@@ -43,7 +44,7 @@ class TodoController extends Controller
      */
     public function show(Todo $todo)
     {
-        //
+        return view('todo.show', compact('todo'));
     }
 
     /**
