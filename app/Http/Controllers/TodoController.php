@@ -61,19 +61,22 @@ class TodoController extends Controller
      */
     public function update(UpdateTodoRequest $request, Todo $todo)
     {
-        $selected = $request->input('StatusGroup');
+        if ($request->has('StatusGroup')) {
 
-        if ($selected === 'completed') {
-            $stats = Todo::where('id', $todo->id)->update(['status' => TodoStatus::COMPLETED->value]);
-            $todo->update(['title' => $request->title, 'description' => $request->description, 'status' => $stats]);
-            // dd($todo->status);
-            return redirect(route('todo.index'));
-        } else {
-            $stats = Todo::where('id', $todo->id)->update(['status' => TodoStatus::OPEN->value]);
-            $todo->update(['title' => $request->title, 'description' => $request->description, 'status' => $stats]);
-            // dd($todo->status);
-            return redirect(route('todo.index'));
+            $selected = $request->input('StatusGroup');
+            if ($selected === 'completed') {
+                $stats = Todo::where('id', $todo->id)->update(['status' => TodoStatus::COMPLETED->value]);
+                $todo->update(['title' => $request->title, 'description' => $request->description, 'status' => $stats]);
+                // dd($todo->status);
+                return redirect(route('todo.index'));
+            } else {
+                $stats = Todo::where('id', $todo->id)->update(['status' => TodoStatus::OPEN->value]);
+                $todo->update(['title' => $request->title, 'description' => $request->description, 'status' => $stats]);
+                // dd($todo->status);
+                return redirect(route('todo.index'));
+            }
         }
+
     }
 
     /**

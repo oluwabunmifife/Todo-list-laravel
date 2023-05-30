@@ -30,7 +30,8 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::resource('/todo', TodoController::class);  
+    Route::resource('/todo', TodoController::class);
+    // Route::put('/todo/{id}/toggle', [TodoController::class, 'toggle'])->name('todo.toggle');
 });
 
 require __DIR__.'/auth.php';

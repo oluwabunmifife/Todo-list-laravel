@@ -6,6 +6,13 @@
                 <div class="text-white flex justify-between py-4">
                     <a href="{{ route('todo.show',  $todo->id ) }}">{{ $todo->title }}</a>
                     <p>{{ $todo->created_at->diffforHumans() }}</p>
+                    <p>{{ $todo->status }}</p>
+                    <form action="{{ route('todo.update', $todo->id) }}" method="POST">
+                        @csrf
+                        @method('patch')
+                        {{-- <button name="changeStatus" type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Change Status</button> --}}
+                        <input type="Submit" name="changeStatus" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" value="Change Status">
+                    </form>
                 </div>
             @endforeach
         </div>
